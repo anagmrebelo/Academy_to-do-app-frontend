@@ -7,7 +7,6 @@ interface TaskProps {
 
 function Task({ oneTask }: TaskProps): JSX.Element {
   const [editingMode, setEditingMode] = useState(false);
-  const [statusMode, setStatusMode] = useState(oneTask.status);
   const [oneTaskEdited, setOneTaskEdited] = useState(oneTask);
 
   const handleEditClick = () => {
@@ -16,13 +15,12 @@ function Task({ oneTask }: TaskProps): JSX.Element {
   };
 
   const handleStatusClick = () => {
-    setStatusMode((previous) => !previous); // is this necesssary?
-    // make a put request to change status
+    //make a put request to update status to !oneTaskEdited
   };
 
   return (
     <div className="flex">
-      {!statusMode ? (
+      {!oneTaskEdited.status ? (
         <button onClick={handleStatusClick}>Incomplete</button>
       ) : (
         <button onClick={handleStatusClick}>Complete</button>
