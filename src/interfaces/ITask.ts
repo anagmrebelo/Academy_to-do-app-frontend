@@ -2,9 +2,7 @@ interface ITask {
   id: number;
   value: string;
   dueDate: string;
-  status: TaskStatus;
+  status: boolean;
 }
-
-type TaskStatus = "complete" | "incomplete";
 
 export type { ITask };

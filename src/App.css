@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+/* Tags */
+
+h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  margin: 0;
+  padding: 16px;
+  color: white;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+/* Classes */
+.header {
+  background-color: #6483f2;
+  min-height: 16vh;
+}
+
+/* Utilities */
+.flex {
+  display: flex;
+}
+
+.center {
+  /*  */
+}
