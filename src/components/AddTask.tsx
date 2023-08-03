@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 interface IAddTask {
   value: undefined | string;
@@ -19,7 +20,10 @@ function AddTask({ setUpdateTasks }: AddTaskProps): JSX.Element {
   const handleAddOnClick = () => {
     // if both fields are not empty
     //    POST request
-    // axios.post(requestUrl, whateverData)
+    axios.post("https://anagmrebelo-to-do-app.onrender.com/tasks", {
+      ...taskInp,
+      status: false,
+    });
     setTaskInp(cleanTask);
     setUpdateTasks((previous) => !previous);
   };
@@ -32,7 +36,11 @@ function AddTask({ setUpdateTasks }: AddTaskProps): JSX.Element {
         value={taskInp.value}
         onChange={(e) => setTaskInp({ ...taskInp, value: e.target.value })}
       />
-      <input type="date" value={taskInp.dueDate} />
+      <input
+        type="date"
+        value={taskInp.dueDate}
+        onChange={(e) => setTaskInp({ ...taskInp, dueDate: e.target.value })}
+      />
       <button onClick={handleAddOnClick}>Add</button>
     </div>
   );
