@@ -10,13 +10,18 @@ const cleanTask = {
   dueDate: undefined,
 };
 
-function AddTask(): JSX.Element {
+interface AddTaskProps {
+  setUpdateTasks: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function AddTask({ setUpdateTasks }: AddTaskProps): JSX.Element {
   const [taskInp, setTaskInp] = useState<IAddTask>(cleanTask);
   const handleAddOnClick = () => {
     // if both fields are not empty
     //    POST request
-    // clear inputs
+    // axios.post(requestUrl, whateverData)
     setTaskInp(cleanTask);
+    setUpdateTasks((previous) => !previous);
   };
   return (
     <div className="flex">

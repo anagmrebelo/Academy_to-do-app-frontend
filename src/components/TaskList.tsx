@@ -1,9 +1,14 @@
-import { tasks } from "../dataTemp/tasks";
+import { ITask } from "../interfaces/ITask";
 import { Task } from "./Task";
 
-function TaskList(): JSX.Element {
+interface TaskListProps {
+  tasks: ITask[];
+  setUpdateTasks: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function TaskList({ tasks, setUpdateTasks }: TaskListProps): JSX.Element {
   const taskList = tasks.map((oneTask) => (
-    <Task key={oneTask.id} oneTask={oneTask} />
+    <Task key={oneTask.id} oneTask={oneTask} setUpdateTasks={setUpdateTasks} />
   ));
   return <>{taskList}</>;
 }

@@ -3,9 +3,10 @@ import { ITask } from "../interfaces/ITask";
 
 interface TaskProps {
   oneTask: ITask;
+  setUpdateTasks: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Task({ oneTask }: TaskProps): JSX.Element {
+function Task({ oneTask, setUpdateTasks }: TaskProps): JSX.Element {
   const [editingMode, setEditingMode] = useState(false);
   const [oneTaskEditable, setOneTaskEditable] = useState(oneTask);
 
