@@ -1,5 +1,8 @@
+import { ToDosApp } from "./components/ToDosApp";
+import "./App.css";
+
 function App(): JSX.Element {
-  return <></>;
+  return <ToDosApp />;
 }
 
 export default App;
