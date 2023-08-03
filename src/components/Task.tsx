@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ITask } from "../interfaces/ITask";
+import axios from "axios";
 
 interface TaskProps {
   oneTask: ITask;
@@ -12,7 +13,13 @@ function Task({ oneTask, setUpdateTasks }: TaskProps): JSX.Element {
 
   const handleEditClick = () => {
     setEditingMode((previous) => !previous);
-    // if previous is done, make a put request
+    if (editingMode === true) {
+      axios.patch(
+        `https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`,
+        oneTaskEditable
+      );
+      setUpdateTasks((previous) => !previous);
+    }
   };
 
   const handleStatusClick = () => {
