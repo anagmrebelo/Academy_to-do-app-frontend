@@ -7,7 +7,7 @@ interface TaskProps {
 
 function Task({ oneTask }: TaskProps): JSX.Element {
   const [editingMode, setEditingMode] = useState(false);
-  const [oneTaskEdited, setOneTaskEdited] = useState(oneTask);
+  const [oneTaskEditable, setOneTaskEditable] = useState(oneTask);
 
   const handleEditClick = () => {
     setEditingMode((previous) => !previous);
@@ -15,20 +15,21 @@ function Task({ oneTask }: TaskProps): JSX.Element {
   };
 
   const handleStatusClick = () => {
-    //make a put request to update status to !oneTaskEdited
+    console.log(oneTaskEditable.dueDate);
+    //make a put request to update status to !oneTaskEditable
   };
 
   return (
     <div className="flex">
-      {!oneTaskEdited.status ? (
+      {!oneTaskEditable.status ? (
         <button onClick={handleStatusClick}>Incomplete</button>
       ) : (
         <button onClick={handleStatusClick}>Complete</button>
       )}
       {!editingMode ? (
         <div className="flex">
-          <p>{oneTaskEdited.value}</p>
-          <p>{oneTaskEdited.dueDate}</p>
+          <p>{oneTaskEditable.value}</p>
+          <p>{oneTaskEditable.dueDate}</p>
           <button onClick={handleEditClick}>Edit</button>
         </div>
       ) : (
@@ -36,16 +37,19 @@ function Task({ oneTask }: TaskProps): JSX.Element {
           <input
             type="text"
             placeholder="Edit your task..."
-            value={oneTaskEdited.value}
+            value={oneTaskEditable.value}
             onChange={(e) =>
-              setOneTaskEdited({ ...oneTaskEdited, value: e.target.value })
+              setOneTaskEditable({ ...oneTaskEditable, value: e.target.value })
             }
           />
           <input
             type="date"
-            value={oneTaskEdited.dueDate}
+            value={oneTaskEditable.dueDate}
             onChange={(e) =>
-              setOneTaskEdited({ ...oneTaskEdited, dueDate: e.target.value })
+              setOneTaskEditable({
+                ...oneTaskEditable,
+                dueDate: e.target.value,
+              })
             }
           />
           <button onClick={handleEditClick}>Done</button>
