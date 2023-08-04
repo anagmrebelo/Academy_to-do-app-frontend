@@ -2,11 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import { fetchTasks } from "../utils/fetchTasks";
 import { ITask } from "../interfaces/ITask";
-
-interface IAddTask {
-  value: undefined | string;
-  dueDate: undefined | string;
-}
+import { IAddTask } from "../interfaces/IAddTask";
+import { validateAddTaskInp } from "../utils/validateAddTaskInp";
 
 const cleanTask = {
   value: "",
@@ -19,9 +16,11 @@ interface AddTaskProps {
 
 function AddTask({ setTasks }: AddTaskProps): JSX.Element {
   const [taskInp, setTaskInp] = useState<IAddTask>(cleanTask);
+
   const handleAddOnClick = () => {
-    // if both fields are not empty
-    //    POST request
+    if (!validateAddTaskInp(taskInp)) {
+      return;
+    }
     axios
       .post("https://anagmrebelo-to-do-app.onrender.com/tasks", {
         ...taskInp,
