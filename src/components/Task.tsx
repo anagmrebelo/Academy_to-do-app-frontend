@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { ITask } from "../interfaces/ITask";
 import { fetchTasks } from "../utils/fetchTasks";
+import { validateTask } from "../utils/validateTask";
 
 interface TaskProps {
   oneTask: ITask;
@@ -13,6 +14,9 @@ function Task({ oneTask, setTasks }: TaskProps): JSX.Element {
   const [oneTaskEditable, setOneTaskEditable] = useState({ ...oneTask });
 
   const handleEditClick = () => {
+    if (!validateTask(oneTaskEditable)) {
+      return;
+    }
     setEditingMode((previous) => !previous);
     if (editingMode === true) {
       axios

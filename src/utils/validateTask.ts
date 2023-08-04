@@ -1,15 +1,15 @@
 import { IAddTask } from "../interfaces/IAddTask";
 
-function validateAddTaskInp(taskInp: IAddTask): boolean {
-  if (taskInp.value === "") {
+function validateTask(oneTask: IAddTask): boolean {
+  if (oneTask.value === "") {
     console.log("Got here!");
     alert("Type a description for your task");
     return false;
-  } else if (taskInp.dueDate === "") {
+  } else if (oneTask.dueDate === "") {
     alert("Choose a due date for your task");
     return false;
   }
   return true;
 }
 
-export { validateAddTaskInp };
+export { validateTask };

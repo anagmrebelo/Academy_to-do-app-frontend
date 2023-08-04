@@ -3,7 +3,7 @@ import { useState } from "react";
 import { fetchTasks } from "../utils/fetchTasks";
 import { ITask } from "../interfaces/ITask";
 import { IAddTask } from "../interfaces/IAddTask";
-import { validateAddTaskInp } from "../utils/validateAddTaskInp";
+import { validateTask } from "../utils/validateTask";
 
 const cleanTask = {
   value: "",
@@ -18,7 +18,7 @@ function AddTask({ setTasks }: AddTaskProps): JSX.Element {
   const [taskInp, setTaskInp] = useState<IAddTask>(cleanTask);
 
   const handleAddOnClick = () => {
-    if (!validateAddTaskInp(taskInp)) {
+    if (!validateTask(taskInp)) {
       return;
     }
     axios
