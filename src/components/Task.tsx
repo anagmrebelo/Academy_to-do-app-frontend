@@ -24,7 +24,12 @@ function Task({ oneTask, setTasks }: TaskProps): JSX.Element {
           `https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`,
           oneTaskEditable
         )
-        .then(() => fetchTasks(setTasks));
+        .then(() =>
+          fetchTasks(
+            "https://anagmrebelo-to-do-app.onrender.com/tasks",
+            setTasks
+          )
+        );
     }
   };
 
@@ -37,7 +42,9 @@ function Task({ oneTask, setTasks }: TaskProps): JSX.Element {
       .patch(`https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`, {
         status: !oneTaskEditable.status,
       })
-      .then(() => fetchTasks(setTasks));
+      .then(() =>
+        fetchTasks("https://anagmrebelo-to-do-app.onrender.com/tasks", setTasks)
+      );
   };
 
   return (

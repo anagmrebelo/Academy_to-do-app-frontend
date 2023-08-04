@@ -26,7 +26,9 @@ function AddTask({ setTasks }: AddTaskProps): JSX.Element {
         ...taskInp,
         status: false,
       })
-      .then(() => fetchTasks(setTasks));
+      .then(() =>
+        fetchTasks("https://anagmrebelo-to-do-app.onrender.com/tasks", setTasks)
+      );
     setTaskInp(cleanTask);
   };
   return (

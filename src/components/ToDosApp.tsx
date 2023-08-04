@@ -9,13 +9,13 @@ import { fetchTasks } from "../utils/fetchTasks";
 function ToDosApp(): JSX.Element {
   const [tasks, setTasks] = useState<ITask[]>([]);
   useEffect(() => {
-    fetchTasks(setTasks);
+    fetchTasks("https://anagmrebelo-to-do-app.onrender.com/tasks", setTasks);
   }, []);
 
   return (
     <>
       <Header />
-      <OptionsBar />
+      <OptionsBar setTasks={setTasks} />
       <AddTask setTasks={setTasks} />
       <TaskList tasks={tasks} setTasks={setTasks} />
     </>
