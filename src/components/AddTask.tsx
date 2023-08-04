@@ -1,5 +1,7 @@
-import { useState } from "react";
 import axios from "axios";
+import { useState } from "react";
+import { fetchTasks } from "../utils/fetchTasks";
+import { ITask } from "../interfaces/ITask";
 
 interface IAddTask {
   value: undefined | string;
@@ -7,25 +9,26 @@ interface IAddTask {
 }
 
 const cleanTask = {
-  value: undefined,
-  dueDate: undefined,
+  value: "",
+  dueDate: "",
 };
 
 interface AddTaskProps {
-  setUpdateTasks: React.Dispatch<React.SetStateAction<boolean>>;
+  setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
 }
 
-function AddTask({ setUpdateTasks }: AddTaskProps): JSX.Element {
+function AddTask({ setTasks }: AddTaskProps): JSX.Element {
   const [taskInp, setTaskInp] = useState<IAddTask>(cleanTask);
   const handleAddOnClick = () => {
     // if both fields are not empty
     //    POST request
-    axios.post("https://anagmrebelo-to-do-app.onrender.com/tasks", {
-      ...taskInp,
-      status: false,
-    });
+    axios
+      .post("https://anagmrebelo-to-do-app.onrender.com/tasks", {
+        ...taskInp,
+        status: false,
+      })
+      .then(() => fetchTasks(setTasks));
     setTaskInp(cleanTask);
-    setUpdateTasks((previous) => !previous);
   };
   return (
     <div className="flex">

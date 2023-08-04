@@ -4,28 +4,20 @@ import { AddTask } from "./AddTask";
 import { TaskList } from "./TaskList";
 import { useEffect, useState } from "react";
 import { ITask } from "../interfaces/ITask";
-import axios from "axios";
+import { fetchTasks } from "../utils/fetchTasks";
 
 function ToDosApp(): JSX.Element {
   const [tasks, setTasks] = useState<ITask[]>([]);
-  const [updateTasks, setUpdateTasks] = useState(true);
   useEffect(() => {
-    async function fetchTasks() {
-      axios
-        .get("https://anagmrebelo-to-do-app.onrender.com/tasks")
-        .then((response) => {
-          setTasks(response.data);
-        });
-    }
-    fetchTasks();
-  }, [updateTasks]);
+    fetchTasks(setTasks);
+  }, []);
 
   return (
     <>
       <Header />
       <OptionsBar />
-      <AddTask setUpdateTasks={setUpdateTasks} />
-      <TaskList tasks={tasks} setUpdateTasks={setUpdateTasks} />
+      <AddTask setTasks={setTasks} />
+      <TaskList tasks={tasks} setTasks={setTasks} />
     </>
   );
 }

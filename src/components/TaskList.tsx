@@ -3,12 +3,12 @@ import { Task } from "./Task";
 
 interface TaskListProps {
   tasks: ITask[];
-  setUpdateTasks: React.Dispatch<React.SetStateAction<boolean>>;
+  setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
 }
 
-function TaskList({ tasks, setUpdateTasks }: TaskListProps): JSX.Element {
+function TaskList({ tasks, setTasks }: TaskListProps): JSX.Element {
   const taskList = tasks.map((oneTask) => (
-    <Task key={oneTask.id} oneTask={oneTask} setUpdateTasks={setUpdateTasks} />
+    <Task key={oneTask.id} oneTask={oneTask} setTasks={setTasks} />
   ));
   return <>{taskList}</>;
 }

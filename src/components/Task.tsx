@@ -1,30 +1,39 @@
+import axios from "axios";
 import { useState } from "react";
 import { ITask } from "../interfaces/ITask";
-import axios from "axios";
+import { fetchTasks } from "../utils/fetchTasks";
 
 interface TaskProps {
   oneTask: ITask;
-  setUpdateTasks: React.Dispatch<React.SetStateAction<boolean>>;
+  setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
 }
 
-function Task({ oneTask, setUpdateTasks }: TaskProps): JSX.Element {
+function Task({ oneTask, setTasks }: TaskProps): JSX.Element {
   const [editingMode, setEditingMode] = useState(false);
-  const [oneTaskEditable, setOneTaskEditable] = useState(oneTask);
+  const [oneTaskEditable, setOneTaskEditable] = useState({ ...oneTask });
 
   const handleEditClick = () => {
     setEditingMode((previous) => !previous);
     if (editingMode === true) {
-      axios.patch(
-        `https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`,
-        oneTaskEditable
-      );
-      setUpdateTasks((previous) => !previous);
+      axios
+        .patch(
+          `https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`,
+          oneTaskEditable
+        )
+        .then(() => fetchTasks(setTasks));
     }
   };
 
   const handleStatusClick = () => {
-    console.log(oneTaskEditable.dueDate);
-    //make a put request to update status to !oneTaskEditable
+    setOneTaskEditable((previous) => ({
+      ...previous,
+      status: !previous.status,
+    }));
+    axios
+      .patch(`https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`, {
+        status: !oneTaskEditable.status,
+      })
+      .then(() => fetchTasks(setTasks));
   };
 
   return (
