@@ -14,23 +14,22 @@ function Task({ oneTask, setTasks }: TaskProps): JSX.Element {
   const [oneTaskEditable, setOneTaskEditable] = useState({ ...oneTask });
 
   const handleEditClick = () => {
+    setEditingMode((previous) => !previous);
+  };
+
+  const handleDoneClick = () => {
     if (!validateTask(oneTaskEditable)) {
       return;
     }
     setEditingMode((previous) => !previous);
-    if (editingMode === true) {
-      axios
-        .patch(
-          `https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`,
-          oneTaskEditable
-        )
-        .then(() =>
-          fetchTasks(
-            "https://anagmrebelo-to-do-app.onrender.com/tasks",
-            setTasks
-          )
-        );
-    }
+    axios
+      .patch(
+        `https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`,
+        oneTaskEditable
+      )
+      .then(() =>
+        fetchTasks("https://anagmrebelo-to-do-app.onrender.com/tasks", setTasks)
+      );
   };
 
   const handleStatusClick = () => {
@@ -80,7 +79,7 @@ function Task({ oneTask, setTasks }: TaskProps): JSX.Element {
               })
             }
           />
-          <button onClick={handleEditClick}>Done</button>
+          <button onClick={handleDoneClick}>Done</button>
         </div>
       )}
     </div>
