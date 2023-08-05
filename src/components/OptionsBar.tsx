@@ -1,5 +1,5 @@
 import axios from "axios";
-import { fetchTasks } from "../utils/fetchTasks";
+import { fetchAndSetTasks } from "../utils/fetchTasks";
 import { ITask } from "../interfaces/ITask";
 
 interface OptionsBarProps {
@@ -13,7 +13,10 @@ function OptionsBar({ setTasks }: OptionsBarProps): JSX.Element {
         type: "filter",
       })
       .then(() =>
-        fetchTasks("https://anagmrebelo-to-do-app.onrender.com/tasks", setTasks)
+        fetchAndSetTasks(
+          "https://anagmrebelo-to-do-app.onrender.com/tasks",
+          setTasks
+        )
       );
   };
 
@@ -23,7 +26,10 @@ function OptionsBar({ setTasks }: OptionsBarProps): JSX.Element {
         type: "sort",
       })
       .then(() =>
-        fetchTasks("https://anagmrebelo-to-do-app.onrender.com/tasks", setTasks)
+        fetchAndSetTasks(
+          "https://anagmrebelo-to-do-app.onrender.com/tasks",
+          setTasks
+        )
       );
   };
 

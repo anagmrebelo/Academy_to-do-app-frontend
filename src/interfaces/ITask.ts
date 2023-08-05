@@ -5,4 +5,14 @@ interface ITask {
   status: boolean;
 }
 
+interface IDraft {
+  value: string;
+  dueDate: Date;
+}
+
+// interface ITask {
+//   :
+//   draft: IDraft
+// }
+
 export type { ITask };

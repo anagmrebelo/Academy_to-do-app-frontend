@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { fetchTasks } from "../utils/fetchTasks";
+import { fetchAndSetTasks } from "../utils/fetchTasks";
 import { ITask } from "../interfaces/ITask";
 import { IAddTask } from "../interfaces/IAddTask";
 import { validateTask } from "../utils/validateTask";
@@ -27,7 +27,10 @@ function AddTask({ setTasks }: AddTaskProps): JSX.Element {
         status: false,
       })
       .then(() =>
-        fetchTasks("https://anagmrebelo-to-do-app.onrender.com/tasks", setTasks)
+        fetchAndSetTasks(
+          "https://anagmrebelo-to-do-app.onrender.com/tasks",
+          setTasks
+        )
       );
     setTaskInp(cleanTask);
   };

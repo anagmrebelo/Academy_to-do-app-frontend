@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ITask } from "../interfaces/ITask";
 
-async function fetchTasks(
+async function fetchAndSetTasks(
   url: string,
   setTasks: React.Dispatch<React.SetStateAction<ITask[]>>
 ) {
@@ -10,4 +10,4 @@ async function fetchTasks(
   });
 }
 
-export { fetchTasks };
+export { fetchAndSetTasks };

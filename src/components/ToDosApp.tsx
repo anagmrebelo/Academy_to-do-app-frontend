@@ -4,12 +4,15 @@ import { AddTask } from "./AddTask";
 import { TaskList } from "./TaskList";
 import { useEffect, useState } from "react";
 import { ITask } from "../interfaces/ITask";
-import { fetchTasks } from "../utils/fetchTasks";
+import { fetchAndSetTasks } from "../utils/fetchTasks";
 
 function ToDosApp(): JSX.Element {
   const [tasks, setTasks] = useState<ITask[]>([]);
   useEffect(() => {
-    fetchTasks("https://anagmrebelo-to-do-app.onrender.com/tasks", setTasks);
+    fetchAndSetTasks(
+      "https://anagmrebelo-to-do-app.onrender.com/tasks",
+      setTasks
+    );
   }, []);
 
   return (
