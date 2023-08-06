@@ -53,6 +53,17 @@ function Task({ oneTask, setTasks }: TaskProps): JSX.Element {
     setEditingMode((previous) => !previous);
   };
 
+  const handleDeleteClick = () => {
+    axios
+      .delete(`https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`)
+      .then(() =>
+        fetchAndSetTasks(
+          "https://anagmrebelo-to-do-app.onrender.com/tasks",
+          setTasks
+        )
+      );
+  };
+
   return (
     <div className="flex">
       {!oneTask.status ? (
@@ -65,6 +76,7 @@ function Task({ oneTask, setTasks }: TaskProps): JSX.Element {
           <p>{oneTask.value}</p>
           <p>{oneTask.dueDate}</p>
           <button onClick={handleEditClick}>Edit</button>
+          <button onClick={handleDeleteClick}>Delete</button>
         </div>
       ) : (
         <div>

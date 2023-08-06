@@ -20,23 +20,23 @@ function OptionsBar({ setTasks }: OptionsBarProps): JSX.Element {
       );
   };
 
-  const handleSortOnClick = () => {
-    axios
-      .patch("https://anagmrebelo-to-do-app.onrender.com/options", {
-        type: "sort",
-      })
-      .then(() =>
-        fetchAndSetTasks(
-          "https://anagmrebelo-to-do-app.onrender.com/tasks",
-          setTasks
-        )
-      );
-  };
+  // const handleSortOnClick = () => {
+  //   axios
+  //     .patch("https://anagmrebelo-to-do-app.onrender.com/options", {
+  //       type: "sort",
+  //     })
+  //     .then(() =>
+  //       fetchAndSetTasks(
+  //         "https://anagmrebelo-to-do-app.onrender.com/tasks",
+  //         setTasks
+  //       )
+  //     );
+  // };
 
   return (
     <div>
       <button onClick={handleFilterOnClick}>Filter</button>
-      <button onClick={handleSortOnClick}>Sort</button>
+      {/* <button onClick={handleSortOnClick}>Sort</button> */}
     </div>
   );
 }
