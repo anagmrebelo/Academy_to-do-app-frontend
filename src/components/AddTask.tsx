@@ -1,21 +1,37 @@
+import axios from "axios";
 import { useState } from "react";
-
-interface IAddTask {
-  value: undefined | string;
-  dueDate: undefined | string;
-}
+import { fetchAndSetTasks } from "../utils/fetchTasks";
+import { ITask } from "../interfaces/ITask";
+import { IAddTask } from "../interfaces/IAddTask";
+import { validateTask } from "../utils/validateTask";
 
 const cleanTask = {
-  value: undefined,
-  dueDate: undefined,
+  value: "",
+  dueDate: "",
 };
 
-function AddTask(): JSX.Element {
+interface AddTaskProps {
+  setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
+}
+
+function AddTask({ setTasks }: AddTaskProps): JSX.Element {
   const [taskInp, setTaskInp] = useState<IAddTask>(cleanTask);
+
   const handleAddOnClick = () => {
-    // if both fields are not empty
-    //    POST request
-    // clear inputs
+    if (!validateTask(taskInp)) {
+      return;
+    }
+    axios
+      .post("https://anagmrebelo-to-do-app.onrender.com/tasks", {
+        ...taskInp,
+        status: false,
+      })
+      .then(() =>
+        fetchAndSetTasks(
+          "https://anagmrebelo-to-do-app.onrender.com/tasks",
+          setTasks
+        )
+      );
     setTaskInp(cleanTask);
   };
   return (
@@ -27,7 +43,11 @@ function AddTask(): JSX.Element {
         value={taskInp.value}
         onChange={(e) => setTaskInp({ ...taskInp, value: e.target.value })}
       />
-      <input type="date" value={taskInp.dueDate} />
+      <input
+        type="date"
+        value={taskInp.dueDate}
+        onChange={(e) => setTaskInp({ ...taskInp, dueDate: e.target.value })}
+      />
       <button onClick={handleAddOnClick}>Add</button>
     </div>
   );

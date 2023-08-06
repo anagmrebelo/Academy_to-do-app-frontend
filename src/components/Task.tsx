@@ -1,58 +1,103 @@
+import axios from "axios";
 import { useState } from "react";
 import { ITask } from "../interfaces/ITask";
+import { fetchAndSetTasks } from "../utils/fetchTasks";
+import { validateTask } from "../utils/validateTask";
 
 interface TaskProps {
   oneTask: ITask;
+  setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
 }
 
-function Task({ oneTask }: TaskProps): JSX.Element {
+function Task({ oneTask, setTasks }: TaskProps): JSX.Element {
   const [editingMode, setEditingMode] = useState(false);
-  const [oneTaskEditable, setOneTaskEditable] = useState(oneTask);
+  const [draft, setDraft] = useState({ ...oneTask });
 
   const handleEditClick = () => {
     setEditingMode((previous) => !previous);
-    // if previous is done, make a put request
+  };
+
+  const handleDoneClick = () => {
+    if (!validateTask(draft)) {
+      return;
+    }
+    setEditingMode((previous) => !previous);
+    axios
+      .patch(
+        `https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`,
+        draft
+      )
+      .then(() =>
+        fetchAndSetTasks(
+          "https://anagmrebelo-to-do-app.onrender.com/tasks",
+          setTasks
+        )
+      );
   };
 
   const handleStatusClick = () => {
-    console.log(oneTaskEditable.dueDate);
-    //make a put request to update status to !oneTaskEditable
+    axios
+      .patch(`https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`, {
+        status: !oneTask.status,
+      })
+      .then(() =>
+        fetchAndSetTasks(
+          "https://anagmrebelo-to-do-app.onrender.com/tasks",
+          setTasks
+        )
+      );
+  };
+
+  const handleCancelClick = () => {
+    setDraft({ ...oneTask });
+    setEditingMode((previous) => !previous);
+  };
+
+  const handleDeleteClick = () => {
+    axios
+      .delete(`https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`)
+      .then(() =>
+        fetchAndSetTasks(
+          "https://anagmrebelo-to-do-app.onrender.com/tasks",
+          setTasks
+        )
+      );
   };
 
   return (
     <div className="flex">
-      {!oneTaskEditable.status ? (
+      {!oneTask.status ? (
         <button onClick={handleStatusClick}>Incomplete</button>
       ) : (
         <button onClick={handleStatusClick}>Complete</button>
       )}
       {!editingMode ? (
         <div className="flex">
-          <p>{oneTaskEditable.value}</p>
-          <p>{oneTaskEditable.dueDate}</p>
+          <p>{oneTask.value}</p>
+          <p>{oneTask.dueDate}</p>
           <button onClick={handleEditClick}>Edit</button>
+          <button onClick={handleDeleteClick}>Delete</button>
         </div>
       ) : (
         <div>
           <input
             type="text"
             placeholder="Edit your task..."
-            value={oneTaskEditable.value}
-            onChange={(e) =>
-              setOneTaskEditable({ ...oneTaskEditable, value: e.target.value })
-            }
+            value={draft.value}
+            onChange={(e) => setDraft({ ...draft, value: e.target.value })}
           />
           <input
             type="date"
-            value={oneTaskEditable.dueDate}
+            value={draft.dueDate}
             onChange={(e) =>
-              setOneTaskEditable({
-                ...oneTaskEditable,
+              setDraft({
+                ...draft,
                 dueDate: e.target.value,
               })
             }
           />
-          <button onClick={handleEditClick}>Done</button>
+          <button onClick={handleDoneClick}>Done</button>
+          <button onClick={handleCancelClick}>Cancel</button>
         </div>
       )}
     </div>
