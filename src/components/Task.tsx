@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { ITask } from "../interfaces/ITask";
-import { fetchAndSetTasks } from "../utils/fetchTasks";
+import { fetchAndSet } from "../utils/fetchTasks";
 import { validateTask } from "../utils/validateTask";
 
 interface TaskProps {
@@ -28,7 +28,7 @@ function Task({ oneTask, setTasks }: TaskProps): JSX.Element {
         draft
       )
       .then(() =>
-        fetchAndSetTasks(
+        fetchAndSet(
           "https://anagmrebelo-to-do-app.onrender.com/tasks",
           setTasks
         )
@@ -41,7 +41,7 @@ function Task({ oneTask, setTasks }: TaskProps): JSX.Element {
         status: !oneTask.status,
       })
       .then(() =>
-        fetchAndSetTasks(
+        fetchAndSet(
           "https://anagmrebelo-to-do-app.onrender.com/tasks",
           setTasks
         )
@@ -57,7 +57,7 @@ function Task({ oneTask, setTasks }: TaskProps): JSX.Element {
     axios
       .delete(`https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`)
       .then(() =>
-        fetchAndSetTasks(
+        fetchAndSet(
           "https://anagmrebelo-to-do-app.onrender.com/tasks",
           setTasks
         )

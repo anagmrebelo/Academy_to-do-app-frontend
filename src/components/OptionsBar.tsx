@@ -1,9 +1,13 @@
 import axios from "axios";
-import { fetchAndSetTasks } from "../utils/fetchTasks";
+import { fetchAndSet } from "../utils/fetchTasks";
 import { ITask } from "../interfaces/ITask";
+import { IUser } from "../interfaces/IUser";
 
 interface OptionsBarProps {
   setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
+  users: IUser[];
+  currUserId: number | null;
+  setCurrUserId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 function OptionsBar({ setTasks }: OptionsBarProps): JSX.Element {
@@ -13,7 +17,7 @@ function OptionsBar({ setTasks }: OptionsBarProps): JSX.Element {
         option: "filter",
       })
       .then(() =>
-        fetchAndSetTasks(
+        fetchAndSet(
           "https://anagmrebelo-to-do-app.onrender.com/tasks",
           setTasks
         )
@@ -26,15 +30,17 @@ function OptionsBar({ setTasks }: OptionsBarProps): JSX.Element {
         option: "sort",
       })
       .then(() =>
-        fetchAndSetTasks(
+        fetchAndSet(
           "https://anagmrebelo-to-do-app.onrender.com/tasks",
           setTasks
         )
       );
   };
-
+  // const
+  // const userOptions =
   return (
     <div>
+      <select></select>
       <button onClick={handleFilterOnClick}>Filter</button>
       <button onClick={handleSortOnClick}>Sort</button>
     </div>
