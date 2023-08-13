@@ -10,7 +10,11 @@ interface OptionsBarProps {
   setCurrUserId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-function OptionsBar({ setTasks }: OptionsBarProps): JSX.Element {
+function OptionsBar({
+  setTasks,
+  users,
+  setCurrUserId,
+}: OptionsBarProps): JSX.Element {
   const handleFilterOnClick = (): void => {
     axios
       .patch("https://anagmrebelo-to-do-app.onrender.com/users/1", {
@@ -37,10 +41,16 @@ function OptionsBar({ setTasks }: OptionsBarProps): JSX.Element {
       );
   };
   // const
-  // const userOptions =
+  const userOptions = users.map((oneUser) => (
+    <option key={oneUser.id} value={oneUser.id}>
+      {oneUser.name}
+    </option>
+  ));
   return (
     <div>
-      <select></select>
+      <select onChange={(e) => setCurrUserId(parseInt(e.target.value))}>
+        {userOptions}
+      </select>
       <button onClick={handleFilterOnClick}>Filter</button>
       <button onClick={handleSortOnClick}>Sort</button>
     </div>
