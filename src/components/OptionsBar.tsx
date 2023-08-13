@@ -9,8 +9,8 @@ interface OptionsBarProps {
 function OptionsBar({ setTasks }: OptionsBarProps): JSX.Element {
   const handleFilterOnClick = (): void => {
     axios
-      .patch("https://anagmrebelo-to-do-app.onrender.com/options", {
-        type: "filter",
+      .patch("https://anagmrebelo-to-do-app.onrender.com/users/1", {
+        option: "filter",
       })
       .then(() =>
         fetchAndSetTasks(
@@ -20,23 +20,23 @@ function OptionsBar({ setTasks }: OptionsBarProps): JSX.Element {
       );
   };
 
-  // const handleSortOnClick = () => {
-  //   axios
-  //     .patch("https://anagmrebelo-to-do-app.onrender.com/options", {
-  //       type: "sort",
-  //     })
-  //     .then(() =>
-  //       fetchAndSetTasks(
-  //         "https://anagmrebelo-to-do-app.onrender.com/tasks",
-  //         setTasks
-  //       )
-  //     );
-  // };
+  const handleSortOnClick = () => {
+    axios
+      .patch("https://anagmrebelo-to-do-app.onrender.com/users/1", {
+        option: "sort",
+      })
+      .then(() =>
+        fetchAndSetTasks(
+          "https://anagmrebelo-to-do-app.onrender.com/tasks",
+          setTasks
+        )
+      );
+  };
 
   return (
     <div>
       <button onClick={handleFilterOnClick}>Filter</button>
-      {/* <button onClick={handleSortOnClick}>Sort</button> */}
+      <button onClick={handleSortOnClick}>Sort</button>
     </div>
   );
 }
