@@ -74,7 +74,7 @@ function Task({ oneTask, setTasks }: TaskProps): JSX.Element {
       {!editingMode ? (
         <div className="flex">
           <p>{oneTask.value}</p>
-          <p>{oneTask.dueDate}</p>
+          <p>{oneTask.due_date}</p>
           <button onClick={handleEditClick}>Edit</button>
           <button onClick={handleDeleteClick}>Delete</button>
         </div>
@@ -88,11 +88,11 @@ function Task({ oneTask, setTasks }: TaskProps): JSX.Element {
           />
           <input
             type="date"
-            value={draft.dueDate}
+            value={draft.due_date}
             onChange={(e) =>
               setDraft({
                 ...draft,
-                dueDate: e.target.value,
+                due_date: e.target.value,
               })
             }
           />

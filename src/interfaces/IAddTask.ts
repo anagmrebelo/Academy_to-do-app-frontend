@@ -1,4 +1,4 @@
 export interface IAddTask {
   value: undefined | string;
-  dueDate: undefined | string;
+  due_date: undefined | string;
 }
