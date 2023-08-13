@@ -7,7 +7,7 @@ import { validateTask } from "../utils/validateTask";
 
 const cleanTask = {
   value: "",
-  dueDate: "",
+  due_date: "",
 };
 
 interface AddTaskProps {
@@ -25,6 +25,7 @@ function AddTask({ setTasks }: AddTaskProps): JSX.Element {
       .post("https://anagmrebelo-to-do-app.onrender.com/tasks", {
         ...taskInp,
         status: false,
+        user_id: 1,
       })
       .then(() =>
         fetchAndSetTasks(
@@ -45,8 +46,8 @@ function AddTask({ setTasks }: AddTaskProps): JSX.Element {
       />
       <input
         type="date"
-        value={taskInp.dueDate}
-        onChange={(e) => setTaskInp({ ...taskInp, dueDate: e.target.value })}
+        value={taskInp.due_date}
+        onChange={(e) => setTaskInp({ ...taskInp, due_date: e.target.value })}
       />
       <button onClick={handleAddOnClick}>Add</button>
     </div>

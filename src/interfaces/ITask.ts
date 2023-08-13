@@ -1,13 +1,13 @@
 interface ITask {
   id: number;
   value: string;
-  dueDate: string;
+  due_date: string;
   status: boolean;
 }
 
 interface IDraft {
   value: string;
-  dueDate: Date;
+  due_date: Date;
 }
 
 // interface ITask {
