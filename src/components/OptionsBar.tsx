@@ -2,6 +2,7 @@ import axios from "axios";
 import { fetchAndSet } from "../utils/fetchTasks";
 import { ITask } from "../interfaces/ITask";
 import { IUser } from "../interfaces/IUser";
+import { UsersDropdown } from "./UsersDropdown";
 
 interface OptionsBarProps {
   setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
@@ -13,11 +14,12 @@ interface OptionsBarProps {
 function OptionsBar({
   setTasks,
   users,
+  currUserId,
   setCurrUserId,
 }: OptionsBarProps): JSX.Element {
   const handleFilterOnClick = (): void => {
     axios
-      .patch("https://anagmrebelo-to-do-app.onrender.com/users/1", {
+      .patch(`https://anagmrebelo-to-do-app.onrender.com/users/${currUserId}`, {
         option: "filter",
       })
       .then(() =>
@@ -30,7 +32,7 @@ function OptionsBar({
 
   const handleSortOnClick = () => {
     axios
-      .patch("https://anagmrebelo-to-do-app.onrender.com/users/1", {
+      .patch(`https://anagmrebelo-to-do-app.onrender.com/users/${currUserId}`, {
         option: "sort",
       })
       .then(() =>
@@ -40,17 +42,13 @@ function OptionsBar({
         )
       );
   };
-  // const
-  const userOptions = users.map((oneUser) => (
-    <option key={oneUser.id} value={oneUser.id}>
-      {oneUser.name}
-    </option>
-  ));
   return (
     <div>
-      <select onChange={(e) => setCurrUserId(parseInt(e.target.value))}>
-        {userOptions}
-      </select>
+      <UsersDropdown
+        users={users}
+        currUserId={currUserId}
+        setCurrUserId={setCurrUserId}
+      />
       <button onClick={handleFilterOnClick}>Filter</button>
       <button onClick={handleSortOnClick}>Sort</button>
     </div>
