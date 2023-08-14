@@ -1,13 +1,12 @@
 import axios from "axios";
-import { ITask } from "../interfaces/ITask";
 
-async function fetchAndSetTasks(
+async function fetchAndSet<T>(
   url: string,
-  setTasks: React.Dispatch<React.SetStateAction<ITask[]>>
+  setFn: React.Dispatch<React.SetStateAction<T>>
 ) {
   axios.get(url).then((response) => {
-    setTasks(response.data);
+    setFn(response.data);
   });
 }
 
-export { fetchAndSetTasks };
+export { fetchAndSet };

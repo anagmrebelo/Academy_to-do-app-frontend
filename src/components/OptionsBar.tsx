@@ -1,20 +1,30 @@
 import axios from "axios";
-import { fetchAndSetTasks } from "../utils/fetchTasks";
+import { fetchAndSet } from "../utils/fetchTasks";
 import { ITask } from "../interfaces/ITask";
+import { IUser } from "../interfaces/IUser";
+import { UsersDropdown } from "./UsersDropdown";
 
 interface OptionsBarProps {
   setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
+  users: IUser[];
+  currUserId: number;
+  setCurrUserId: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function OptionsBar({ setTasks }: OptionsBarProps): JSX.Element {
+function OptionsBar({
+  setTasks,
+  users,
+  currUserId,
+  setCurrUserId,
+}: OptionsBarProps): JSX.Element {
   const handleFilterOnClick = (): void => {
     axios
-      .patch("https://anagmrebelo-to-do-app.onrender.com/users/1", {
+      .patch(`https://anagmrebelo-to-do-app.onrender.com/users/${currUserId}`, {
         option: "filter",
       })
       .then(() =>
-        fetchAndSetTasks(
-          "https://anagmrebelo-to-do-app.onrender.com/tasks",
+        fetchAndSet(
+          `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUserId}`,
           setTasks
         )
       );
@@ -22,19 +32,23 @@ function OptionsBar({ setTasks }: OptionsBarProps): JSX.Element {
 
   const handleSortOnClick = () => {
     axios
-      .patch("https://anagmrebelo-to-do-app.onrender.com/users/1", {
+      .patch(`https://anagmrebelo-to-do-app.onrender.com/users/${currUserId}`, {
         option: "sort",
       })
       .then(() =>
-        fetchAndSetTasks(
-          "https://anagmrebelo-to-do-app.onrender.com/tasks",
+        fetchAndSet(
+          `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUserId}`,
           setTasks
         )
       );
   };
-
   return (
     <div>
+      <UsersDropdown
+        users={users}
+        currUserId={currUserId}
+        setCurrUserId={setCurrUserId}
+      />
       <button onClick={handleFilterOnClick}>Filter</button>
       <button onClick={handleSortOnClick}>Sort</button>
     </div>
