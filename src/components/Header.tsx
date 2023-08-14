@@ -2,7 +2,7 @@ import { IUser } from "../interfaces/IUser";
 import { getCurrentUser } from "../utils/getCurrentUser";
 
 interface HeaderProps {
-  currUserId: number | null;
+  currUserId: number;
   users: IUser[];
 }
 

@@ -7,9 +7,10 @@ import { validateTask } from "../utils/validateTask";
 interface TaskProps {
   oneTask: ITask;
   setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
+  currUserId: number | null;
 }
 
-function Task({ oneTask, setTasks }: TaskProps): JSX.Element {
+function Task({ oneTask, setTasks, currUserId }: TaskProps): JSX.Element {
   const [editingMode, setEditingMode] = useState(false);
   const [draft, setDraft] = useState({ ...oneTask });
 
@@ -29,7 +30,7 @@ function Task({ oneTask, setTasks }: TaskProps): JSX.Element {
       )
       .then(() =>
         fetchAndSet(
-          "https://anagmrebelo-to-do-app.onrender.com/tasks",
+          `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUserId}`,
           setTasks
         )
       );
@@ -42,7 +43,7 @@ function Task({ oneTask, setTasks }: TaskProps): JSX.Element {
       })
       .then(() =>
         fetchAndSet(
-          "https://anagmrebelo-to-do-app.onrender.com/tasks",
+          `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUserId}`,
           setTasks
         )
       );
@@ -58,7 +59,7 @@ function Task({ oneTask, setTasks }: TaskProps): JSX.Element {
       .delete(`https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`)
       .then(() =>
         fetchAndSet(
-          "https://anagmrebelo-to-do-app.onrender.com/tasks",
+          `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUserId}`,
           setTasks
         )
       );

@@ -10,11 +10,18 @@ import { fetchAndSet } from "../utils/fetchTasks";
 function ToDosApp(): JSX.Element {
   const [tasks, setTasks] = useState<ITask[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
-  const [currUserId, setCurrUserId] = useState<number | null>(1);
+  const [currUserId, setCurrUserId] = useState<number>(1);
+
   useEffect(() => {
-    fetchAndSet("https://anagmrebelo-to-do-app.onrender.com/tasks", setTasks);
     fetchAndSet("https://anagmrebelo-to-do-app.onrender.com/users", setUsers);
   }, []);
+
+  useEffect(() => {
+    fetchAndSet(
+      `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUserId}`,
+      setTasks
+    );
+  }, [currUserId]);
 
   return (
     <>
@@ -25,8 +32,8 @@ function ToDosApp(): JSX.Element {
         currUserId={currUserId}
         setCurrUserId={setCurrUserId}
       />
-      <AddTask setTasks={setTasks} />
-      <TaskList tasks={tasks} setTasks={setTasks} />
+      <AddTask setTasks={setTasks} currUserId={currUserId} />
+      <TaskList tasks={tasks} setTasks={setTasks} currUserId={currUserId} />
     </>
   );
 }

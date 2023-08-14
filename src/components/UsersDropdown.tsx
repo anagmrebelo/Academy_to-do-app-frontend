@@ -2,8 +2,8 @@ import { IUser } from "../interfaces/IUser";
 
 interface UsersDropdownProps {
   users: IUser[];
-  currUserId: number | null;
-  setCurrUserId: React.Dispatch<React.SetStateAction<number | null>>;
+  currUserId: number;
+  setCurrUserId: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function UsersDropdown({
@@ -18,7 +18,7 @@ function UsersDropdown({
   ));
   return (
     <select
-      // value={null}
+      value={currUserId}
       onChange={(e) => setCurrUserId(parseInt(e.target.value))}
     >
       {userOptions}

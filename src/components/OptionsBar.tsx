@@ -7,8 +7,8 @@ import { UsersDropdown } from "./UsersDropdown";
 interface OptionsBarProps {
   setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
   users: IUser[];
-  currUserId: number | null;
-  setCurrUserId: React.Dispatch<React.SetStateAction<number | null>>;
+  currUserId: number;
+  setCurrUserId: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function OptionsBar({
@@ -24,7 +24,7 @@ function OptionsBar({
       })
       .then(() =>
         fetchAndSet(
-          "https://anagmrebelo-to-do-app.onrender.com/tasks",
+          `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUserId}`,
           setTasks
         )
       );
@@ -37,7 +37,7 @@ function OptionsBar({
       })
       .then(() =>
         fetchAndSet(
-          "https://anagmrebelo-to-do-app.onrender.com/tasks",
+          `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUserId}`,
           setTasks
         )
       );

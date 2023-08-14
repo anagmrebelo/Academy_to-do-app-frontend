@@ -12,9 +12,10 @@ const cleanTask = {
 
 interface AddTaskProps {
   setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
+  currUserId: number;
 }
 
-function AddTask({ setTasks }: AddTaskProps): JSX.Element {
+function AddTask({ setTasks, currUserId }: AddTaskProps): JSX.Element {
   const [taskInp, setTaskInp] = useState<IAddTask>(cleanTask);
 
   const handleAddOnClick = () => {
@@ -25,11 +26,11 @@ function AddTask({ setTasks }: AddTaskProps): JSX.Element {
       .post("https://anagmrebelo-to-do-app.onrender.com/tasks", {
         ...taskInp,
         status: false,
-        user_id: 1,
+        user_id: currUserId,
       })
       .then(() =>
         fetchAndSet(
-          "https://anagmrebelo-to-do-app.onrender.com/tasks",
+          `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUserId}`,
           setTasks
         )
       );
