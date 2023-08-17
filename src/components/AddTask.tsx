@@ -4,6 +4,10 @@ import { fetchAndSet } from "../utils/fetchTasks";
 import { ITask } from "../interfaces/ITask";
 import { IAddTask } from "../interfaces/IAddTask";
 import { validateTask } from "../utils/validateTask";
+import { Tr, Td, IconButton, Input } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
+import { IUser } from "../interfaces/IUser";
+import { CreateToastFnReturn } from "@chakra-ui/react";
 
 const cleanTask = {
   value: "",
@@ -12,46 +16,58 @@ const cleanTask = {
 
 interface AddTaskProps {
   setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
-  currUserId: number;
+  currUser: IUser | undefined;
+  toast: CreateToastFnReturn;
 }
 
-function AddTask({ setTasks, currUserId }: AddTaskProps): JSX.Element {
+function AddTask({ setTasks, currUser, toast }: AddTaskProps): JSX.Element {
   const [taskInp, setTaskInp] = useState<IAddTask>(cleanTask);
 
   const handleAddOnClick = () => {
-    if (!validateTask(taskInp)) {
+    if (!validateTask(taskInp, toast)) {
       return;
     }
-    axios
-      .post("https://anagmrebelo-to-do-app.onrender.com/tasks", {
-        ...taskInp,
-        status: false,
-        user_id: currUserId,
-      })
-      .then(() =>
-        fetchAndSet(
-          `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUserId}`,
-          setTasks
-        )
-      );
+    currUser &&
+      axios
+        .post("https://anagmrebelo-to-do-app.onrender.com/tasks", {
+          ...taskInp,
+          status: false,
+          user_id: currUser.id,
+        })
+        .then(() =>
+          fetchAndSet(
+            `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUser.id}`,
+            setTasks
+          )
+        );
     setTaskInp(cleanTask);
   };
   return (
-    <div className="flex">
-      <p>+</p>
-      <input
-        type="text"
-        placeholder="Type a task here..."
-        value={taskInp.value}
-        onChange={(e) => setTaskInp({ ...taskInp, value: e.target.value })}
-      />
-      <input
-        type="date"
-        value={taskInp.due_date}
-        onChange={(e) => setTaskInp({ ...taskInp, due_date: e.target.value })}
-      />
-      <button onClick={handleAddOnClick}>Add</button>
-    </div>
+    <Tr className="highlight-row">
+      <Td>
+        <IconButton
+          aria-label="Add task"
+          icon={<AddIcon />}
+          onClick={handleAddOnClick}
+        />
+      </Td>
+      <Td>
+        <Input
+          type="text"
+          placeholder="Type a task here..."
+          value={taskInp.value}
+          onChange={(e) => setTaskInp({ ...taskInp, value: e.target.value })}
+        />
+      </Td>
+      <Td>
+        <Input
+          type="Date"
+          value={taskInp.due_date}
+          onChange={(e) => setTaskInp({ ...taskInp, due_date: e.target.value })}
+        />
+      </Td>
+      <Td></Td>
+    </Tr>
   );
 }
 

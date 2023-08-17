@@ -33,3 +33,7 @@ p {
 .center {
   /*  */
 }
+
+.highlight-row {
+  background-color: lightblue;
+}

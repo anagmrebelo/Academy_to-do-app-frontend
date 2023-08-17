@@ -1,18 +1,8 @@
 interface ITask {
   id: number;
   value: string;
-  due_date: string;
+  due_date: string | undefined;
   status: boolean;
 }
-
-interface IDraft {
-  value: string;
-  due_date: Date;
-}
-
-// interface ITask {
-//   :
-//   draft: IDraft
-// }
 
 export type { ITask };
