@@ -13,12 +13,13 @@ import {
 } from "@chakra-ui/react";
 import { CheckIcon, CloseIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { IUser } from "../interfaces/IUser";
+import { CreateToastFnReturn } from "@chakra-ui/react";
 
 interface TaskProps {
   oneTask: ITask;
   setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
   currUser: IUser | undefined;
-  toast: any;
+  toast: CreateToastFnReturn;
 }
 
 function Task({ oneTask, setTasks, currUser, toast }: TaskProps): JSX.Element {

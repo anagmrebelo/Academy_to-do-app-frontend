@@ -7,6 +7,7 @@ import { validateTask } from "../utils/validateTask";
 import { Tr, Td, IconButton, Input } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { IUser } from "../interfaces/IUser";
+import { CreateToastFnReturn } from "@chakra-ui/react";
 
 const cleanTask = {
   value: "",
@@ -16,7 +17,7 @@ const cleanTask = {
 interface AddTaskProps {
   setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
   currUser: IUser | undefined;
-  toast: any;
+  toast: CreateToastFnReturn;
 }
 
 function AddTask({ setTasks, currUser, toast }: AddTaskProps): JSX.Element {

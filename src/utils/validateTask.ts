@@ -1,6 +1,7 @@
 import { IAddTask } from "../interfaces/IAddTask";
+import { CreateToastFnReturn } from "@chakra-ui/react";
 
-function validateTask(oneTask: IAddTask, toast: any): boolean {
+function validateTask(oneTask: IAddTask, toast: CreateToastFnReturn): boolean {
   if (oneTask.value === "") {
     toast({
       title: "Type a description for your task",

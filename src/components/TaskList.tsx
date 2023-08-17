@@ -3,12 +3,13 @@ import { IUser } from "../interfaces/IUser";
 import { AddTask } from "./AddTask";
 import { Task } from "./Task";
 import { Table, Thead, Tbody, Tr, Th, TableContainer } from "@chakra-ui/react";
+import { CreateToastFnReturn } from "@chakra-ui/react";
 
 interface TaskListProps {
   tasks: ITask[];
   setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
   currUser: IUser | undefined;
-  toast: any;
+  toast: CreateToastFnReturn;
 }
 
 function TaskList({
