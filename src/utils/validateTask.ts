@@ -1,12 +1,21 @@
 import { IAddTask } from "../interfaces/IAddTask";
 
-function validateTask(oneTask: IAddTask): boolean {
+function validateTask(oneTask: IAddTask, toast: any): boolean {
   if (oneTask.value === "") {
-    console.log("Got here!");
-    alert("Type a description for your task");
+    toast({
+      title: "Type a description for your task",
+      status: "warning",
+      duration: 3000,
+      isClosable: true,
+    });
     return false;
   } else if (oneTask.due_date === "") {
-    alert("Choose a due date for your task");
+    toast({
+      title: "Choose a due date for your task",
+      status: "warning",
+      duration: 9000,
+      isClosable: true,
+    });
     return false;
   }
   return true;

@@ -1,17 +1,19 @@
+import { Flex } from "@chakra-ui/react";
 import { IUser } from "../interfaces/IUser";
-import { getCurrentUser } from "../utils/getCurrentUser";
+import { UsersMenu } from "./UsersMenu";
 
 interface HeaderProps {
-  currUserId: number;
+  currUser: IUser | undefined;
   users: IUser[];
+  setCurrUser: React.Dispatch<React.SetStateAction<IUser | undefined>>;
 }
 
-function Header({ currUserId, users }: HeaderProps): JSX.Element {
-  const currUser = getCurrentUser(users, currUserId);
+function Header({ currUser, users, setCurrUser }: HeaderProps): JSX.Element {
   return (
-    <div>
-      <h1>{typeof currUser === "object" && currUser.name} To Dos</h1>
-    </div>
+    <Flex justifyContent="space-between" alignItems="center" p={4}>
+      <h1>{currUser && currUser.name} To Dos</h1>
+      <UsersMenu users={users} currUser={currUser} setCurrUser={setCurrUser} />
+    </Flex>
   );
 }
 
