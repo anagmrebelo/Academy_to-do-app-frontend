@@ -20,18 +20,10 @@ p {
 }
 
 /* Classes */
-.header {
-  background-color: #6483f2;
-  min-height: 16vh;
-}
 
 /* Utilities */
 .flex {
   display: flex;
-}
-
-.center {
-  /*  */
 }
 
 .highlight-row {
