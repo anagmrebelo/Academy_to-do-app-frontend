@@ -4,9 +4,8 @@ async function fetchAndSet<T>(
   url: string,
   setFn: React.Dispatch<React.SetStateAction<T>>
 ) {
-  axios.get(url).then((response) => {
-    setFn(response.data);
-  });
+  const response = await axios.get(url);
+  setFn(response.data);
 }
 
 export { fetchAndSet };

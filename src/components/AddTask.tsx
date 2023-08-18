@@ -23,23 +23,19 @@ interface AddTaskProps {
 function AddTask({ setTasks, currUser, toast }: AddTaskProps): JSX.Element {
   const [taskInp, setTaskInp] = useState<IAddTask>(cleanTask);
 
-  const handleAddOnClick = () => {
-    if (!validateTask(taskInp, toast)) {
+  const handleAddOnClick = async () => {
+    if (!validateTask(taskInp, toast) || !currUser) {
       return;
     }
-    currUser &&
-      axios
-        .post("https://anagmrebelo-to-do-app.onrender.com/tasks", {
-          ...taskInp,
-          status: false,
-          user_id: currUser.id,
-        })
-        .then(() =>
-          fetchAndSet(
-            `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUser.id}`,
-            setTasks
-          )
-        );
+    await axios.post("https://anagmrebelo-to-do-app.onrender.com/tasks", {
+      ...taskInp,
+      status: false,
+      user_id: currUser.id,
+    });
+    await fetchAndSet(
+      `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUser.id}`,
+      setTasks
+    );
     setTaskInp(cleanTask);
   };
   return (
