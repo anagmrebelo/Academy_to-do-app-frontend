@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { fetchAndSet } from "../utils/fetchTasks";
 import { ITask } from "../interfaces/ITask";
 import { IAddTask } from "../interfaces/IAddTask";
@@ -23,7 +23,7 @@ interface AddTaskProps {
 function AddTask({ setTasks, currUser, toast }: AddTaskProps): JSX.Element {
   const [taskInp, setTaskInp] = useState<IAddTask>(cleanTask);
 
-  const handleAddOnClick = async () => {
+  const validateAndAddTask = useCallback(async () => {
     if (!validateTask(taskInp, toast) || !currUser) {
       return;
     }
@@ -37,14 +37,29 @@ function AddTask({ setTasks, currUser, toast }: AddTaskProps): JSX.Element {
       setTasks
     );
     setTaskInp(cleanTask);
-  };
+  }, [setTasks, currUser, taskInp, toast]);
+
+  useEffect(() => {
+    async function handleKeyPress(event: KeyboardEvent) {
+      if (event.key === "Enter") {
+        console.log("Enter key pressed!", taskInp);
+        await validateAndAddTask();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [validateAndAddTask, taskInp]);
+
   return (
     <Tr className="highlight-row">
       <Td>
         <IconButton
           aria-label="Add task"
           icon={<AddIcon />}
-          onClick={handleAddOnClick}
+          onClick={validateAndAddTask}
         />
       </Td>
       <Td>
