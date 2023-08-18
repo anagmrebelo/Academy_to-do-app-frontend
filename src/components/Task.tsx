@@ -91,7 +91,7 @@ function Task({ oneTask, setTasks, currUser, toast }: TaskProps): JSX.Element {
             ></Checkbox>
           </Td>
           <Td>{oneTask.value}</Td>
-          <Td>{oneTask.due_date}</Td>
+          <Td>{oneTask.due_date?.slice(0, 10)}</Td>
           <Td>
             <ButtonGroup spacing="6">
               <IconButton
@@ -123,7 +123,7 @@ function Task({ oneTask, setTasks, currUser, toast }: TaskProps): JSX.Element {
           <Td>
             <Input
               variant="filled"
-              value={draft.due_date}
+              value={draft.due_date?.slice(0, 10)}
               onChange={(e) =>
                 setDraft({
                   ...draft,
