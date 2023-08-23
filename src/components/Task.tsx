@@ -70,12 +70,9 @@ function Task({ oneTask, setTasks, currUser, toast }: TaskProps): JSX.Element {
     if (!currUser) {
       return;
     }
-    await axios.delete(
+    setTasks((previous) => previous.filter((item) => item.id != oneTask.id));
+    const deletedTask = await axios.delete(
       `https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`
-    );
-    await fetchAndSet(
-      `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUser.id}`,
-      setTasks
     );
   };
 
