@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { fetchAndSet } from "../utils/fetchTasks";
 import { ITask } from "../interfaces/ITask";
 import { IAddTask } from "../interfaces/IAddTask";
@@ -23,32 +23,43 @@ interface AddTaskProps {
 function AddTask({ setTasks, currUser, toast }: AddTaskProps): JSX.Element {
   const [taskInp, setTaskInp] = useState<IAddTask>(cleanTask);
 
-  const handleAddOnClick = () => {
-    if (!validateTask(taskInp, toast)) {
+  const validateAndAddTask = useCallback(async () => {
+    if (!validateTask(taskInp, toast) || !currUser) {
       return;
     }
-    currUser &&
-      axios
-        .post("https://anagmrebelo-to-do-app.onrender.com/tasks", {
-          ...taskInp,
-          status: false,
-          user_id: currUser.id,
-        })
-        .then(() =>
-          fetchAndSet(
-            `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUser.id}`,
-            setTasks
-          )
-        );
+    await axios.post("https://anagmrebelo-to-do-app.onrender.com/tasks", {
+      ...taskInp,
+      status: false,
+      user_id: currUser.id,
+    });
+    await fetchAndSet(
+      `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUser.id}`,
+      setTasks
+    );
     setTaskInp(cleanTask);
-  };
+  }, [setTasks, currUser, taskInp, toast]);
+
+  useEffect(() => {
+    async function handleKeyPress(event: KeyboardEvent) {
+      if (event.key === "Enter") {
+        console.log("Enter key pressed!", taskInp);
+        await validateAndAddTask();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [validateAndAddTask, taskInp]);
+
   return (
     <Tr className="highlight-row">
       <Td>
         <IconButton
           aria-label="Add task"
           icon={<AddIcon />}
-          onClick={handleAddOnClick}
+          onClick={validateAndAddTask}
         />
       </Td>
       <Td>
@@ -61,7 +72,8 @@ function AddTask({ setTasks, currUser, toast }: AddTaskProps): JSX.Element {
       </Td>
       <Td>
         <Input
-          type="Date"
+          type={"Date"}
+          placeholder="Select a date"
           value={taskInp.due_date}
           onChange={(e) => setTaskInp({ ...taskInp, due_date: e.target.value })}
         />

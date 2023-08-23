@@ -30,40 +30,35 @@ function Task({ oneTask, setTasks, currUser, toast }: TaskProps): JSX.Element {
     setEditingMode((previous) => !previous);
   };
 
-  const handleDoneClick = () => {
-    if (!validateTask(draft, toast)) {
+  const handleDoneClick = async () => {
+    if (!validateTask(draft, toast) || !currUser) {
       return;
     }
     setEditingMode((previous) => !previous);
-    currUser &&
-      axios
-        .patch(
-          `https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`,
-          draft
-        )
-        .then(() =>
-          fetchAndSet(
-            `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUser.id}`,
-            setTasks
-          )
-        );
+    await axios.patch(
+      `https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`,
+      draft
+    );
+    await fetchAndSet(
+      `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUser.id}`,
+      setTasks
+    );
   };
 
-  const handleStatusClick = () => {
-    currUser &&
-      axios
-        .patch(
-          `https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`,
-          {
-            status: !oneTask.status,
-          }
-        )
-        .then(() =>
-          fetchAndSet(
-            `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUser.id}`,
-            setTasks
-          )
-        );
+  const handleStatusClick = async () => {
+    if (!currUser) {
+      return;
+    }
+    await axios.patch(
+      `https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`,
+      {
+        status: !oneTask.status,
+      }
+    );
+    await fetchAndSet(
+      `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUser.id}`,
+      setTasks
+    );
   };
 
   const handleCancelClick = () => {
@@ -71,18 +66,14 @@ function Task({ oneTask, setTasks, currUser, toast }: TaskProps): JSX.Element {
     setEditingMode((previous) => !previous);
   };
 
-  const handleDeleteClick = () => {
-    currUser &&
-      axios
-        .delete(
-          `https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`
-        )
-        .then(() =>
-          fetchAndSet(
-            `https://anagmrebelo-to-do-app.onrender.com/tasks/${currUser.id}`,
-            setTasks
-          )
-        );
+  const handleDeleteClick = async () => {
+    if (!currUser) {
+      return;
+    }
+    setTasks((previous) => previous.filter((item) => item.id !== oneTask.id));
+    await axios.delete(
+      `https://anagmrebelo-to-do-app.onrender.com/tasks/${oneTask.id}`
+    );
   };
 
   return (
@@ -97,7 +88,7 @@ function Task({ oneTask, setTasks, currUser, toast }: TaskProps): JSX.Element {
             ></Checkbox>
           </Td>
           <Td>{oneTask.value}</Td>
-          <Td>{oneTask.due_date}</Td>
+          <Td>{oneTask.due_date?.slice(0, 10)}</Td>
           <Td>
             <ButtonGroup spacing="6">
               <IconButton
@@ -129,7 +120,7 @@ function Task({ oneTask, setTasks, currUser, toast }: TaskProps): JSX.Element {
           <Td>
             <Input
               variant="filled"
-              value={draft.due_date}
+              value={draft.due_date?.slice(0, 10)}
               onChange={(e) =>
                 setDraft({
                   ...draft,

@@ -1,7 +1,10 @@
 body {
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
   font-family: "Roboto", sans-serif;
+  min-height: 100vh;
 }
 
 /* Tags */
@@ -20,18 +23,34 @@ p {
 }
 
 /* Classes */
-.header {
-  background-color: #6483f2;
-  min-height: 16vh;
+.footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  position: sticky;
+  bottom: 0;
+}
+
+/* Main content wrapper */
+.main-content {
+  flex: 1; /* Allow content to push footer to the bottom */
+  min-height: 100vh;
+}
+
+.repo-link {
+  color: #55a7fe; /* Default link color */
+  transition: color 0.3s; /* Smooth color transition on hover */
+}
+
+.repo-link:hover {
+  color: #79b8fa; /* Change link color on hover */
+  text-decoration: underline; /* Add underline on hover */
 }
 
 /* Utilities */
 .flex {
   display: flex;
-}
-
-.center {
-  /*  */
 }
 
 .highlight-row {
