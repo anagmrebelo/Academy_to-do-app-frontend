@@ -72,7 +72,8 @@ function AddTask({ setTasks, currUser, toast }: AddTaskProps): JSX.Element {
       </Td>
       <Td>
         <Input
-          type="Date"
+          type={"Date"}
+          placeholder="Select a date"
           value={taskInp.due_date}
           onChange={(e) => setTaskInp({ ...taskInp, due_date: e.target.value })}
         />
